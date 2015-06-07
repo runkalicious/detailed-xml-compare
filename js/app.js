@@ -30,7 +30,7 @@ var dnd = new DnDFileController('body', function(data) {
     for (var i = 0; i < data.items.length; i++) {
         var item = data.items[i];
         if (item.kind == 'file' &&
-            item.type.match('text/*') &&
+            item.type.match('text/xml') &&
             item.webkitGetAsEntry()) {
             chosenEntry = item.webkitGetAsEntry();
             break;
@@ -38,7 +38,7 @@ var dnd = new DnDFileController('body', function(data) {
     }
 
     if (!chosenEntry) {
-        output.textContent = "Sorry. That's not a text file.";
+        output.textContent = "Only XML files are permitted";
         return;
     }
     else {
