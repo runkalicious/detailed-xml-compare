@@ -80,11 +80,11 @@ div.field span {
     font-weight: normal;
 }
 
-div.flaws {
+div.flaws, div.modules {
     margin: 5px 10px;
 }
 
-div.flaw {
+div.flaw, div.module {
     margin: 2px;
     padding: 3px;
     float: left;

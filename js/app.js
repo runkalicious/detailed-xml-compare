@@ -40,14 +40,29 @@ function updateDisplay(filename) {
     $(entry).append( item("Engine", $xmlDoc.find("static-analysis").attr("engine_version")) );
     $(entry).append(spacer());
 
-    // New flaws
+    // Modules
+    var modules = createDiv("modules");
+    $(entry).append( item("Modules", "").addClass("minus").click(function() {
+        $(modules).toggle("1000");
+        $(this).toggleClass("plus minus");
+    }) );
+
+    $(entry).append(modules);
+    $.each($xmlDoc.find("module"), function(idx, module) {
+        $(modules).append(createDiv("module").text($(module).attr("name")));
+    });
+    $(modules).append(spacer());
+
+    $(entry).append(spacer());
+
+    // Flaws
     var flaws = createDiv("flaws");
     $(entry).append( item("New Flaws", "").addClass("minus").click(function() {
         $(flaws).toggle("1000");
         $(this).toggleClass("plus minus");
     }) );
 
-    $(entry).append( flaws );
+    $(entry).append(flaws);
     $.each($xmlDoc.find("flaw"), function(idx, flaw) {
         if($(flaw).attr("remediation_status") == "New") {
             $(flaws).append(createDiv("flaw").text(
