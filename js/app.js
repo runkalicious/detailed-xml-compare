@@ -15,8 +15,16 @@ function errorHandler(e) {
 
 function item(key, value) {
     var val = $("<span/>").text(value);
-    var item = $("<div/>").addClass("field").text(key + ": ");
+    var item = $("<div/>").addClass("field").text((value) ? key + ": " : key);
     return $(item).append(val);
+}
+
+function createDiv(classname) {
+    return $("<div/>").addClass(classname);
+}
+
+function spacer() {
+    return $("<div/>").addClass("clear").html("&nbsp;");
 }
 
 function updateDisplay(filename) {
@@ -26,20 +34,28 @@ function updateDisplay(filename) {
     var $xmlDoc = $(xmlDocuments[xmlDocuments.length - 1]);
 
     // Add new item to pane
-    var entry = $("<div/>").addClass("entry").append($("<div class=\"title\" /><br/>"));
+    var entry = createDiv("entry").append(createDiv("title")).append(spacer());
     $(entry).append( item("Application Name", $xmlDoc.find("detailedreport").attr("app_name")) );
     $(entry).append( item("Build Name", $xmlDoc.find("detailedreport").attr("version")) );
     $(entry).append( item("Engine", $xmlDoc.find("static-analysis").attr("engine_version")) );
+    $(entry).append(spacer());
 
     // New flaws
-    $(entry).append( item("New Flaws", "") );
+    var flaws = createDiv("flaws");
+    $(entry).append( item("New Flaws", "").addClass("minus").click(function() {
+        $(flaws).toggle("1000");
+        $(this).toggleClass("plus minus");
+    }) );
+
+    $(entry).append( flaws );
     $.each($xmlDoc.find("flaw"), function(idx, flaw) {
         if($(flaw).attr("remediation_status") == "New") {
-            $(entry).append($("<div/>").addClass("flaw").text(
+            $(flaws).append(createDiv("flaw").text(
                  "CWE-" + $(flaw).attr("cweid") + ": #" + $(flaw).attr("issueid")
             ));
         }
     });
+    $(flaws).append(spacer());
 
     // Add to page
     $(pane).append($(entry));
