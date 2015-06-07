@@ -4,8 +4,8 @@
   "version": "0.9",
   "minimum_chrome_version": "23",
   "icons": {
-    "16": "icon_16.png",
-    "128": "icon_128.png"
+    "16": "assets/Monster3_16BW.png",
+    "128": "assets/Monster3_128BW.png"
   },
   "app": {
     "background": {
