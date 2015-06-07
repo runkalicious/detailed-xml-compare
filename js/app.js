@@ -30,6 +30,18 @@ function updateDisplay(filename) {
     $(entry).append( item("Application Name", $xmlDoc.find("detailedreport").attr("app_name")) );
     $(entry).append( item("Build Name", $xmlDoc.find("detailedreport").attr("version")) );
     $(entry).append( item("Engine", $xmlDoc.find("static-analysis").attr("engine_version")) );
+
+    // New flaws
+    $(entry).append( item("New Flaws", "") );
+    $.each($xmlDoc.find("flaw"), function(idx, flaw) {
+        if($(flaw).attr("remediation_status") == "New") {
+            $(entry).append($("<div/>").addClass("flaw").text(
+                 "CWE-" + $(flaw).attr("cweid") + ": #" + $(flaw).attr("issueid")
+            ));
+        }
+    });
+
+    // Add to page
     $(pane).append($(entry));
 
     // Fill in file path information
@@ -90,7 +102,7 @@ var dnd = new DnDFileController('body', function(data) {
 });
 
 // Clear all values
-$(reset).click(function(e) {
+$(reset).click(function() {
     xmlDocuments = [];
 
     $(pane).empty();
