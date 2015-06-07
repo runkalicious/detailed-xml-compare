@@ -14,5 +14,15 @@
         "main.js"
       ]
     }
+  },
+  "permissions": [
+    "fileSystem"
+  ],
+  "file_handlers": {
+    "text": {
+      "types": [
+        "text/xml"
+      ]
+    }
   }
 }

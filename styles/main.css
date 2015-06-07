@@ -20,6 +20,17 @@ div#background {
     background-image: url("../assets/Monster3.png");
 }
 
+span#status {
+    position: absolute;
+    top: 20px;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    line-height: 100%;
+    color: darkred;
+    letter-spacing: -0.05em;
+}
+
 h1 {
     position: absolute;
     bottom: 40px;
