@@ -15,6 +15,24 @@ body.dropping {
     background-image: url("../assets/Monster1.png"), -webkit-radial-gradient(center, ellipse cover,#FAFAFA 0%,#F5F5F5 20%,#D73185 100%);
 }
 
+div#pane {
+    position: absolute;
+    top: 70px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+div.entry {
+    height: 100%;
+    padding: 5px;
+    border: 1px solid #18A0AB;
+    margin: 0 -12px 0 0;
+    float: left;
+    background-color: #F5F5F5;
+    overflow: scroll;
+}
+
 span#status {
     position: absolute;
     top: 50px;
@@ -51,4 +69,12 @@ h3 {
     line-height: 80%;
     color: #666;
     letter-spacing: -0.05em;
+}
+
+div.field {
+    font-weight: bold;
+}
+
+div.field span {
+    font-weight: normal;
 }
