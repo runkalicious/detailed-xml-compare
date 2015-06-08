@@ -84,8 +84,20 @@ div.field span {
     font-weight: normal;
 }
 
+div.toggles {
+    width: 100%;
+    margin: 0 10px 10px 10px;
+    float: left;
+}
+
+div.toggles label {
+    margin-left: 10px;
+    line-height: 80%;
+}
+
 div.flaws, div.modules {
     margin: 5px 10px;
+    clear: both;
 }
 
 div.flaw, div.module {

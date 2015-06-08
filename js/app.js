@@ -23,6 +23,14 @@ function createDiv(classname) {
     return $("<div/>").addClass(classname);
 }
 
+function createCheck(isChecked, value, callback) {
+    var check = $("<input type=\"checkbox\" />").click(callback);
+    $(check).attr("value", value);
+    $(check).prop("checked", isChecked);
+
+    return check;
+}
+
 function spacer() {
     return $("<div/>").addClass("clear").html("&nbsp;");
 }
@@ -65,12 +73,24 @@ function updateDisplay(filename) {
 
     // Flaws
     var flaws = createDiv("flaws");
+
+    var checks = createDiv("toggles");
+    var hideFunc = function() {
+        $(flaws).children("." + this.value).toggle(500, "linear");
+    };
+    $(checks).append($("<label>New</label>")).append(createCheck(true, "added", hideFunc));
+    $(checks).append($("<label>Removed</label>")).append(createCheck(true, "removed", hideFunc));
+    $(checks).append($("<label>Open</label>")).append(createCheck(true, "open", hideFunc));
+
     $(entry).append( item("New Flaws", "").addClass("minus").click(function() {
         $(flaws).toggle("1000");
+        $(checks).toggle();
         $(this).toggleClass("plus minus");
     }) );
 
+    $(entry).append(checks);
     $(entry).append(flaws);
+
     $.each($xmlDoc.find("flaw"), function(idx, flaw) {
         var rstatus = $(flaw).attr("remediation_status").toLowerCase();
         var chip = createDiv("flaw").text(
@@ -78,6 +98,9 @@ function updateDisplay(filename) {
         );
         if(rstatus == "new" || rstatus == "re-open") {
             $(chip).addClass("added");
+        }
+        else {
+            $(chip).addClass("open");
         }
         $(flaws).append(chip);
     });
@@ -112,7 +135,6 @@ function compareXML() {
 
     // Added
     $.each($(modules2).not(modules1).get(), function(idx, module_name) {
-        console.log(module);
         $("div:contains(" + module_name + "):last").addClass("added");
     });
 
@@ -127,7 +149,7 @@ function compareXML() {
 
     // Removed
     $.each($(flawids1).not(flawids2).get(), function(idx, flawid) {
-        $("div:contains(#" + flawid + "):last").addClass("removed");
+        $("div:contains(#" + flawid + "):last").addClass("removed").removeClass("open added");
     });
 }
 
