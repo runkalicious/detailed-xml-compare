@@ -72,6 +72,10 @@ h3 {
     letter-spacing: -0.05em;
 }
 
+div.title {
+    white-space: nowrap;
+}
+
 div.field {
     font-weight: bold;
 }

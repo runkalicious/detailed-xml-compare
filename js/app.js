@@ -94,6 +94,41 @@ function updateDisplay(filename) {
     // Set all entry widths
     var width = 100.0 / xmlDocuments.length;
     $(".entry").width(width + "%");
+
+    // Run compare
+    if (xmlDocuments.length > 1) {
+        compareXML();
+    }
+}
+
+function compareXML() {
+    // Retrieve parsed XML
+    var $xmlDoc1 = $(xmlDocuments[0]);
+    var $xmlDoc2 = $(xmlDocuments[1]);
+
+    /* Find modules differences */
+    var modules1 = $xmlDoc1.find("module");
+    var modules2 = $xmlDoc2.find("module");
+
+    // Added
+    $.each($(modules2).not(modules1).get(), function(idx, module) {
+        console.log(module);
+        $("div:contains(" + $(module).attr("name") + "):last").addClass("added");
+    });
+
+    // Removed
+    $.each($(modules1).not(modules2).get(), function(idx, module) {
+        $("div:contains(" + $(module).attr("name") + "):last").addClass("removed");
+    });
+
+    /* Find flaw differences */
+    var flawids1 = $($xmlDoc1.find("flaw")).map(function(){return $(this).attr("issueid");}).get();
+    var flawids2 = $($xmlDoc2.find("flaw")).map(function(){return $(this).attr("issueid");}).get();
+
+    // Removed
+    $.each($(flawids1).not(flawids2).get(), function(idx, flawid) {
+        $("div:contains(#" + flawid + "):last").addClass("removed");
+    });
 }
 
 function readAsXml(fileEntry, callback) {
