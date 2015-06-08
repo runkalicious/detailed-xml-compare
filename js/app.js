@@ -38,6 +38,14 @@ function updateDisplay(filename) {
     $(entry).append( item("Application Name", $xmlDoc.find("detailedreport").attr("app_name")) );
     $(entry).append( item("Build Name", $xmlDoc.find("detailedreport").attr("version")) );
     $(entry).append( item("Engine", $xmlDoc.find("static-analysis").attr("engine_version")) );
+
+    // Elapsed time
+    var scan_date = new Date($xmlDoc.find("static-analysis").attr("submitted_date").replace(/-/g,'/'));
+    var publish_date = new Date($xmlDoc.find("static-analysis").attr("published_date").replace(/-/g,'/'));
+    //var elapsed = new Date().setTime(scan_date - publish_date);
+    $(entry).append( item("Submitted Date", scan_date.toString()) );
+    $(entry).append( item("Published Date", publish_date.toString()) );
+    //$(entry).append( item("Elapsed", elapsed.toString()) );
     $(entry).append(spacer());
 
     // Modules
@@ -64,11 +72,14 @@ function updateDisplay(filename) {
 
     $(entry).append(flaws);
     $.each($xmlDoc.find("flaw"), function(idx, flaw) {
-        if($(flaw).attr("remediation_status") == "New") {
-            $(flaws).append(createDiv("flaw").text(
-                 "CWE-" + $(flaw).attr("cweid") + ": #" + $(flaw).attr("issueid")
-            ));
+        var rstatus = $(flaw).attr("remediation_status").toLowerCase();
+        var chip = createDiv("flaw").text(
+            "CWE-" + $(flaw).attr("cweid") + ": #" + $(flaw).attr("issueid")
+        );
+        if(rstatus == "new" || rstatus == "re-open") {
+            $(chip).addClass("added");
         }
+        $(flaws).append(chip);
     });
     $(flaws).append(spacer());
 

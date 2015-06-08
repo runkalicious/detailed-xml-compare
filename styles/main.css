@@ -96,6 +96,21 @@ div.flaw, div.module {
     letter-spacing: -0.05em;
 }
 
+div.added {
+    background-color: #ECFDD1 !important;
+    border: 1px solid #8FBC48 !important;
+}
+
+div.removed {
+    background-color: #FACFE5 !important;
+    border: 1px solid #D73185 !important;
+}
+
+div.changed {
+    background-color: #FFFED3 !important;
+    border: 1px solid #FFFC00 !important;
+}
+
 div.clear {
     clear: both;
 }
