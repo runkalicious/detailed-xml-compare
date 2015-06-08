@@ -107,18 +107,18 @@ function compareXML() {
     var $xmlDoc2 = $(xmlDocuments[1]);
 
     /* Find modules differences */
-    var modules1 = $xmlDoc1.find("module");
-    var modules2 = $xmlDoc2.find("module");
+    var modules1 = $($xmlDoc1.find("module")).map(function(){return $(this).attr("name");}).get();
+    var modules2 = $($xmlDoc2.find("module")).map(function(){return $(this).attr("name");}).get();
 
     // Added
-    $.each($(modules2).not(modules1).get(), function(idx, module) {
+    $.each($(modules2).not(modules1).get(), function(idx, module_name) {
         console.log(module);
-        $("div:contains(" + $(module).attr("name") + "):last").addClass("added");
+        $("div:contains(" + module_name + "):last").addClass("added");
     });
 
     // Removed
-    $.each($(modules1).not(modules2).get(), function(idx, module) {
-        $("div:contains(" + $(module).attr("name") + "):last").addClass("removed");
+    $.each($(modules1).not(modules2).get(), function(idx, module_name) {
+        $("div:contains(" + module_name + "):last").addClass("removed");
     });
 
     /* Find flaw differences */
